@@ -1,9 +1,11 @@
+
 package com.example.dessertclicker
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import com.example.dessertclicker.model.Dessert
 
 class DessertViewModel : ViewModel() {
 
@@ -17,9 +19,17 @@ class DessertViewModel : ViewModel() {
         )
     }
 
-    fun updateDessertIndex(index: Int) {
-        uiState = uiState.copy(
-            currentDessertIndex = index
-        )
+    fun determineDessertToShow(desserts: List<Dessert>): Dessert {
+        var dessertToShow = desserts.first()
+
+        for (dessert in desserts) {
+            if (uiState.dessertsSold >= dessert.startProductionAmount) {
+                dessertToShow = dessert
+            } else {
+                break
+            }
+        }
+
+        return dessertToShow
     }
 }
